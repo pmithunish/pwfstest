@@ -1,0 +1,41 @@
+<md-toolbar color="primary">  
+  <button md-button
+    routerLink="/">
+      Perilwise
+  </button>
+
+  <button md-button
+    *ngIf="auth.isAuthenticated()"
+    routerLink="/dashboard/business">
+      Business
+  </button>
+
+  <button md-button
+    *ngIf="auth.isAuthenticated()"
+    routerLink="/dashboard/customersupport">
+      Customer Support
+  </button>
+
+  <span class="example-spacer"></span>
+  <button md-button
+    routerLink="/">
+      Home
+  </button>
+
+  <button md-button
+    *ngIf="!auth.isAuthenticated()"
+    (click)="auth.login()">
+      Login
+  </button>
+
+  <button md-button
+    *ngIf="auth.isAuthenticated()"
+    (click)="auth.logout()">
+      Log Out
+  </button>
+</md-toolbar>
+  
+  <main class="container">
+    <router-outlet></router-outlet>
+  </main>
+  

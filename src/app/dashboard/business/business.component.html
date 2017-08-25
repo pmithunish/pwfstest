@@ -1,0 +1,16 @@
+<img *ngIf="!insuranceData" class="container" src="assets/loading.svg" alt="loading">
+<div style="background-color:#efefef">
+    <md-list>
+        <md-list-item>
+            <md-icon md-list-icon>folder</md-icon>
+            <h4 md-line>Import Insurance Data</h4><br>
+            <input type="file" (change)="fileChange($event)" placeholder="import insurance data" accept=".xlsx">                
+        </md-list-item>
+    </md-list>
+</div>
+<p-dataTable *ngIf="insuranceData" [style]="{'margin':'2.5%'}" [value]="insuranceData" scrollable="true" scrollWidth="95%" [rows]="10" [paginator]="true" [lazy]="true" [totalRecords]="totalRecords" (onLazyLoad)="loadCarsLazy($event)">
+    <p-header>
+        <button md-raised-button (click)="convertToCSV()">Export Insurance Table</button>
+    </p-header>
+    <p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header" [style]="{'width':'250px'}"></p-column>
+</p-dataTable>

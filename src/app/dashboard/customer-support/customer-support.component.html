@@ -1,0 +1,49 @@
+<img *ngIf="!customerData" class="container" src="assets/loading.svg" alt="loading">
+<p-dataTable *ngIf="customerData" [style]="{'margin':'2.5%'}" [value]="customerData" expandableRows="true" scrollable="true" scrollWidth="95%" [rows]="10" [paginator]="true" [lazy]="true" [totalRecords]="totalRecords" (onLazyLoad)="loadCarsLazy($event)" #dtCustomer>
+    <p-header>Claim Management</p-header>
+    <p-column styleClass="col-button" [style]="{'width':'55px'}">
+        <ng-template let-customer="rowData" pTemplate="body">
+            <button style="background-color:black" (click)="dtCustomer.toggleRow(customer)" md-mini-fab><md-icon>info_outline</md-icon></button>
+         </ng-template>
+    </p-column>
+    <p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header" [style]="{'width':'250px'}"></p-column>
+    <p-column styleClass="col-button" [style]="{'width':'55px'}">
+        <ng-template pTemplate="header">
+            <button style="background-color:purple" md-mini-fab><md-icon>library_books</md-icon></button>                        
+        </ng-template>
+        <ng-template let-customer="rowData" pTemplate="body">
+            <button *ngIf="customer.claimMade == 'n'" style="background-color:red" (click)="openClaimStatusCloseDialog(customer)" md-mini-fab><md-icon>close</md-icon></button>
+            <button *ngIf="customer.claimMade == 'y'" style="background-color:green" (click)="openClaimStatusReopenDialog(customer)" md-mini-fab><md-icon>refresh</md-icon></button>            
+        </ng-template>
+    </p-column>
+    <ng-template let-customer pTemplate="rowexpansion">
+        <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-3 label">NCB: </div>
+                            <div class="ui-grid-col-9">{{customer.NCB * 100}}%</div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-3 label">Nominee/Beneficiary: </div>
+                            <div class="ui-grid-col-9">{{customer.nominee}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-col-4">
+                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-3 label">Customer Email: </div>
+                            <div class="ui-grid-col-9">{{customer.customerEmail}}</div>
+                        </div>
+                        <div class="ui-grid-row" *ngIf="customer.dependents">
+                            <div class="ui-grid-col-3 label">Dependents: </div>
+                            <div class="ui-grid-col-9">{{customer.dependents}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-dataTable>
